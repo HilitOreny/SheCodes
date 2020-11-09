@@ -6,3 +6,5 @@ We help beginner programmers gain experience and skills.
 They volunteer to work on old open-source projects,
 and we guide them how to refactor and dust outdated code.
 Workers and volunteers, please use this system to mark your attendance in DustBusters projects.""")
+
+pandas.read_excel('add_data.xlsx', sheet_name='Sheet1')
