@@ -2,6 +2,7 @@ import pandas
 
 """pandas is used to read the excel file and analyze the data"""
 
+
 def read_file():
     """
     :return: a dataframe which contains the content of the excel file.
@@ -12,6 +13,7 @@ def read_file():
         print("Python tried to open the file, but encountered a problem. Contact code maintainers")
     else:
         return file_content
+
 
 def generate_data(raw_excel_data):
     """this function reads the excel file and formats it by replacing empty cells with 0 and removing irrelevant data.
@@ -40,8 +42,8 @@ def inner_course_filtering(general_df, course_name):
         listed = list(row)
         if 13.0 in listed:
             listed.clear()
-            #TO DO: remove row from df
     return filtered_data
+
 
 excel_content = read_file()
 all_courses = generate_data(excel_content)
