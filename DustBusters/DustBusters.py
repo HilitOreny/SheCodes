@@ -1,6 +1,9 @@
 import pandas 
 """pandas is used to read excel and CSV files, and convert them to SQL"""
 
+import pyinputplus
+"""this module provides more features for input validation"""
+
 
 def opening():
     print("""Welcome to DustBusters!
@@ -36,7 +39,7 @@ def input_validation(passwords_names_dict):
     :param passwords_names_dict: a dictionary of the participants names and their passwords
     :return: 
     """
-    given_num = int(input("Please enter your PIN: "))
+    given_num = pyinputplus.inputInt(prompt="Please enter your PIN: " , blank=False)
     given_name = input("Please enter your full name: ")
 
 
