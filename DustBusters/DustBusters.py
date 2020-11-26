@@ -12,18 +12,6 @@ def opening():
     Workers and volunteers, please use this system to mark your attendance in DustBusters projects.""")
 
 
-def open_excel():
-    """This function opens an excel file.
-    :return: a dataframe which contains the content of the file"""
-    try:
-        excel_content = pandas.read_excel('add_data.xlsx', sheet_name='Sheet1')
-    except ImportError:
-        print("Please install pandas and openpyxl modules in order to open the file")
-    except OSError:
-        print("Python could not open the file")
-    return excel_content
-
-
 def password_info(entire_df):
     """DO NOT use this function with real and sensitive data! It's here only for educational purposes.
     :param entire_df: a dataframe which contains the entire information of DustBusters' participants.
@@ -39,10 +27,27 @@ def input_validation(passwords_names_dict):
     :param passwords_names_dict: a dictionary of the participants names and their passwords
     :return: 
     """
-    given_num = pyinputplus.inputInt(prompt="Please enter your PIN: " , blank=False)
+    given_num = pyinputplus.inputInt(prompt="Please enter your PIN: ", blank=False)
     given_name = input("Please enter your full name: ")
+    if given_num in passwords_names_dict.keys():
+        print ("PIN found")
+    if given_name in passwords_names_dict.values():
+        print("Name found")
+
+def run():
+    """
+    opens the file and applies the functions
+    :return:
+    """
+    try:
+        excel_content = pandas.read_excel('add_data.xlsx', sheet_name='Sheet1')
+    except ImportError:
+        print("Please install pandas and openpyxl modules in order to open the file")
+    except OSError:
+        print("Python could not open the file")
+    else:
+        passwords_dict = password_info(excel_content)
+        input_validation(passwords_dict)
 
 
-excel_data = open_excel()
-passwords_dict = password_info(excel_data)
-input_validation(passwords_dict)
+run()
