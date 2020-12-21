@@ -4,6 +4,16 @@ import pandas
 import pyinputplus
 """this module provides more features for input validation"""
 
+import sys
+"""this module is used to make sure the user has an updated python version"""
+
+def version_gatekeeper():
+    """This function verifies that the user has an updated python version"""
+    if not sys.version_info.major == 3 and sys.version_info.minor >= 8:
+        print("Python 3.8 or higher is required.")
+    else:
+        print("You are using Python {}.{}.".format(sys.version_info.major, sys.version_info.minor))
+    return
 
 def opening():
     print("""Welcome to Dust Busters!
@@ -28,12 +38,13 @@ def input_validation(passwords_names_dict):
     :return: 
     """
     given_num = pyinputplus.inputInt(prompt="Please enter your PIN: ", min=100000, max=999999,
-                                     default=666, limit=1, timeout=5)
+                                     default=666, limit=3, timeout=5)
     given_name = pyinputplus.inputStr(prompt="Please enter your full name: ",
-                                      default="Jane Doe", limit=1, timeout=5)
-    print ((given_num, given_name))
-    if (given_num, given_name) in passwords_names_dict.items():
-        print(given_name, "Welcome to Dust Busters")
+                                      default="Jane Doe", limit=3, timeout=5)
+    given_tuple = (given_num, given_name)
+    if given_tuple in passwords_names_dict.items():
+        welcome = f"Hello, {given_name}! Welcome to Dust Busters!"
+        print(welcome)
     else:
         print("Dust Busters could not recognize the name or number you entered.")
 
@@ -44,12 +55,13 @@ def run():
     :return: None
     """
     try:
-        excel_content = pandas.read_excel('add_data.xlsx', sheet_name='Sheet1')
+        excel_content = pandas.read_excel('add_data.xlsx', sheet_name='Sheet1', engine='openpyxl')
     except ImportError:
         print("Please install pandas and openpyxl modules in order to open the file")
     except OSError:
         print("Python could not open the file")
     else:
+        version_gatekeeper()
         passwords_dict = password_info(excel_content)
         input_validation(passwords_dict)
 
