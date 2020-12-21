@@ -7,14 +7,6 @@ import pyinputplus
 import sys
 """this module is used to make sure the user has an updated python version"""
 
-def version_gatekeeper():
-    """This function verifies that the user has an updated python version"""
-    if not sys.version_info.major == 3 and sys.version_info.minor >= 8:
-        print("Python 3.8 or higher is required.")
-    else:
-        print("You are using Python {}.{}.".format(sys.version_info.major, sys.version_info.minor))
-    return
-
 def opening():
     print("""Welcome to Dust Busters!
     We help beginner programmers gain experience and skills.
@@ -54,6 +46,8 @@ def run():
     opens the file and applies the functions
     :return: None
     """
+    if not sys.version_info.major == 3 and sys.version_info.minor >= 8:
+             raise Exception("Python 3.8 or higher is required. Please update your python version")
     try:
         excel_content = pandas.read_excel('add_data.xlsx', sheet_name='Sheet1', engine='openpyxl')
     except ImportError:
@@ -61,7 +55,6 @@ def run():
     except OSError:
         print("Python could not open the file")
     else:
-        version_gatekeeper()
         passwords_dict = password_info(excel_content)
         input_validation(passwords_dict)
 
