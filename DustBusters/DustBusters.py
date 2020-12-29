@@ -49,8 +49,8 @@ def run():
     opens the file and applies the functions
     :return: None
     """
-    if not sys.version_info.major == 3 and sys.version_info.minor >= 8:
-             raise Exception("Python 3.8 or higher is required. Please update your python version")
+    if not sys.version_info.major == 3 and sys.version_info.minor >= 9:
+             raise Exception("Python 3.9 or higher is required. Please update your python version")
     try:
         excel_content = pandas.read_excel('add_data.xlsx', sheet_name='Sheet1', engine='openpyxl')
     except ImportError:
