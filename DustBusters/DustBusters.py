@@ -1,11 +1,16 @@
 import pandas 
 """pandas is used to read excel and CSV files, and convert them to SQL"""
 
-import pyinputplus
-"""this module provides more features for input validation"""
-
 import sys
 """this module is used to make sure the user has an updated python version"""
+
+"""To Do list:
+input validation:
+* default values
+* limit and brute force
+* timeout
+"""
+
 
 def opening():
     print("""Welcome to Dust Busters!
@@ -29,10 +34,8 @@ def input_validation(passwords_names_dict):
     :param passwords_names_dict: a dictionary of the participants names and their passwords
     :return: 
     """
-    given_num = pyinputplus.inputInt(prompt="Please enter your PIN: ", min=100000, max=999999,
-                                     default=666, limit=3, timeout=5)
-    given_name = pyinputplus.inputStr(prompt="Please enter your full name: ",
-                                      default="Jane Doe", limit=3, timeout=5)
+    given_num = input("Please enter your PIN: ")
+    given_name = input("Please enter your full name: ")
     given_tuple = (given_num, given_name)
     if given_tuple in passwords_names_dict.items():
         welcome = f"Hello, {given_name}! Welcome to Dust Busters!"
