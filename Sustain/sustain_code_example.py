@@ -24,12 +24,14 @@ def generate_data(raw_excel_data):
     :rtype: dataframe"""
     filled_excel_data = raw_excel_data.fillna(0)
     no_team = filled_excel_data[filled_excel_data["Staff"] == "No"]
-    drop = no_team.drop(columns=[
+    drop_unused = no_team.drop(columns=[
         "Index", "Staff", "Email", "Joined", "Track",
         "Attendance in the last 10 weeks", "Max Lesson Entered"])
-    return drop
+    recent = drop_unused.drop(drop_unused.columns[[1,2,3,4,5,6]], axis=1)
+    return recent
 
-
-excel_content = read_file("React")
-all_courses = generate_data(excel_content)
-print(all_courses)
+track_list = ["Basic Python","Python for Programmers","React","Web"]
+for item in track_list:
+    excel_content = read_file(item)
+    all_courses = generate_data(excel_content)
+    print(all_courses)
