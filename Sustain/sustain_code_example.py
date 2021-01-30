@@ -2,7 +2,6 @@
 
 import pandas
 
-
 def read_file(track_name):
     """
     :param track_name: The name of the track, to be used as a sheet name.
@@ -31,18 +30,29 @@ def generate_data(raw_excel_data):
     return recent
 
 
-def last_column(data):
+def remove_completed(data):
     """this function removes students who completed the 12 lesson from the dataframe.
-    :return:
-    """
+    :return: a dataframe which contains only students who are in lesson 1 - 11"""
     last_column_name = data.columns.values[-1]
     still_learning = data[data[last_column_name] < 12]
     return still_learning
+
+
+def missing_students(students_df):
+    """this function filters the students who did not show up to the last lesson 
+    return: a dataframe which contains only students who did not show up to the last lesson"""
+    last_column_name = students_df.columns.values[-1]
+    missing = students_df[students_df[last_column_name] == 0]
+    return missing
+
+
+
 
 
 track_list = ["Basic Python", "Python for Programmers", "React", "Web"]
 for item in track_list:
     excel_content = read_file(item)
     all_courses = generate_data(excel_content)
-    last = last_column(all_courses)
-    print(last)
+    active_students = remove_completed(all_courses)
+    missing = missing_students(active_students)
+    print(missing)
