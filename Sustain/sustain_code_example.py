@@ -1,6 +1,8 @@
 """This module reads an excel file and formats it."""
 
 import pandas
+import datetime
+
 
 def read_file(track_name):
     """
@@ -46,7 +48,18 @@ def missing_students(students_df):
     return missing
 
 
-
+def generate_excel(df_to_export, df_name, sheet_name):
+    """this function generates an excel file with today's date and the dataframe's name.
+    :param df_to_export: a dataframe to export to excel file. 
+    :param df_name: dataframe's name to be copied to the excel file.
+    :param df_name type: str
+    :param sheet_name: the name of the excel sheet
+    :param sheet_name type: str
+    """
+    today_string = datetime.datetime.today().strftime("%d %B, %Y")
+    excel_name = f"{df_name} - {sheet_name} - {today_string}.xlsx"
+    df_to_export.to_excel(excel_name)
+    return
 
 
 track_list = ["Basic Python", "Python for Programmers", "React", "Web"]
@@ -55,4 +68,4 @@ for item in track_list:
     all_courses = generate_data(excel_content)
     active_students = remove_completed(all_courses)
     missing = missing_students(active_students)
-    print(missing)
+    generate_excel(missing, "missing students", item)
