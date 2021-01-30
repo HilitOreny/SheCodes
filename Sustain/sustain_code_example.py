@@ -6,7 +6,7 @@ import pandas
 def read_file(track_name):
     """
     :param track_name: The name of the track, to be used as a sheet name.
-    :return: a dataframe which contains the content of the Basic Python sheet in the excel file.
+    :return: a dataframe which contains the content of the sheet in the excel file.
     """
     try:
         file_content = pandas.read_excel("Mock_Data.xlsx", sheet_name=track_name)
@@ -27,11 +27,22 @@ def generate_data(raw_excel_data):
     drop_unused = no_team.drop(columns=[
         "Index", "Staff", "Email", "Joined", "Track",
         "Attendance in the last 10 weeks", "Max Lesson Entered"])
-    recent = drop_unused.drop(drop_unused.columns[[1,2,3,4,5,6]], axis=1)
+    recent = drop_unused.drop(drop_unused.columns[[1, 2, 3, 4, 5, 6]], axis=1)
     return recent
 
-track_list = ["Basic Python","Python for Programmers","React","Web"]
+
+def last_column(data):
+    """this function removes students who completed the 12 lesson from the dataframe.
+    :return:
+    """
+    last_column_name = data.columns.values[-1]
+    still_learning = data[data[last_column_name] < 12]
+    return still_learning
+
+
+track_list = ["Basic Python", "Python for Programmers", "React", "Web"]
 for item in track_list:
     excel_content = read_file(item)
     all_courses = generate_data(excel_content)
-    print(all_courses)
+    last = last_column(all_courses)
+    print(last)
