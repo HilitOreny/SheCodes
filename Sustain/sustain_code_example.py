@@ -1,16 +1,20 @@
-"""This module reads an excel file and formats it."""
+"""This module analyzes the content of an excel file for the Welcome Team of She Codes"""
 
 import pandas
 import datetime
 
 
-def read_file(track_name):
-    """
-    :param track_name: The name of the track, to be used as a sheet name.
+def read_file(file_name, track_name):
+    """This function opens a xlsx file and returns the content of the file. 
+    :param file_name: The name of the xlsx file.
+    :param file_name type: str
+    :param track_name: The name of the track (the name of the sheet).
+    :param track_name type: str
     :return: a dataframe which contains the content of the sheet in the excel file.
     """
     try:
-        file_content = pandas.read_excel("Mock_Data.xlsx", sheet_name=track_name)
+        full_file_name = f"{file_name}.xlsx"
+        file_content = pandas.read_excel(full_file_name, sheet_name=track_name)
     except ImportError:
         print("Python tried to open the file, but encountered a problem. Contact code maintainers")
     else:
@@ -64,7 +68,7 @@ def generate_excel(df_to_export, df_name, sheet_name):
 
 track_list = ["Basic Python", "Python for Programmers", "React", "Web"]
 for item in track_list:
-    excel_content = read_file(item)
+    excel_content = read_file("Mock_Data", item)
     all_courses = generate_data(excel_content)
     active_students = remove_completed(all_courses)
     missing = missing_students(active_students)
