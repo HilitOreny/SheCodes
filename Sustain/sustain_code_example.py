@@ -4,17 +4,13 @@ import pandas
 import datetime
 
 
-def read_file(file_name, track_name):
+def read_file(track_name):
     """This function opens a xlsx file and returns the content of the file. 
-    :param file_name: The name of the xlsx file.
-    :param file_name type: str
     :param track_name: The name of the track (the name of the sheet).
-    :param track_name type: str
     :return: a dataframe which contains the content of the sheet in the excel file.
     """
     try:
-        full_file_name = f"{file_name}.xlsx"
-        file_content = pandas.read_excel(full_file_name, sheet_name=track_name)
+        file_content = pandas.read_excel("welcome.xlsx", sheet_name=track_name)
     except ImportError:
         print("Python tried to open the file, but encountered a problem. Contact code maintainers")
     else:
@@ -48,17 +44,15 @@ def missing_students(students_df):
     """this function filters the students who did not show up to the last lesson 
     return: a dataframe which contains only students who did not show up to the last lesson"""
     last_column_name = students_df.columns.values[-1]
-    missing = students_df[students_df[last_column_name] == 0]
-    return missing
+    missed_last = students_df[students_df[last_column_name] == 0]
+    return missed_last
 
 
 def generate_excel(df_to_export, df_name, sheet_name):
     """this function generates an excel file with today's date and the dataframe's name.
     :param df_to_export: a dataframe to export to excel file. 
     :param df_name: dataframe's name to be copied to the excel file.
-    :param df_name type: str
     :param sheet_name: the name of the excel sheet
-    :param sheet_name type: str
     """
     today_string = datetime.datetime.today().strftime("%d %B, %Y")
     excel_name = f"{df_name} - {sheet_name} - {today_string}.xlsx"
@@ -68,7 +62,7 @@ def generate_excel(df_to_export, df_name, sheet_name):
 
 track_list = ["Basic Python", "Python for Programmers", "React", "Web"]
 for item in track_list:
-    excel_content = read_file("Mock_Data", item)
+    excel_content = read_file(item)
     all_courses = generate_data(excel_content)
     active_students = remove_completed(all_courses)
     missing = missing_students(active_students)
