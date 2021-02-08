@@ -17,7 +17,7 @@ def read_file(track_name):
     :return: a dataframe which contains the content of the sheet in the excel file.
     """
     try:
-        file_content = pandas.read_excel("welcome.xlsx", sheet_name=track_name)
+        file_content = pandas.read_excel('/python_scripts/welcome.xlsx', sheet_name=track_name)
     except ImportError:
         print("Python tried to open the file, but encountered a problem. Contact code maintainers")
     except FileNotFoundError:
