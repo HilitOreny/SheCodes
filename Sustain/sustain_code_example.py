@@ -72,8 +72,9 @@ def generate_excel(df_to_export, df_name, sheet_name):
     :param sheet_name: the name of the excel sheet
     """
     today_string = datetime.datetime.today().strftime("%d %B, %Y")
-    excel_name = f"{df_name} - {sheet_name} - {today_string}.xlsx"
+    excel_name = f"/python_scripts/{df_name} - {sheet_name} - {today_string}.xlsx"
     df_to_export.to_excel(excel_name)
+    output_message = "excel files crated on python_scrips folder"
     return
 
 
