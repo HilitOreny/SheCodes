@@ -2,6 +2,13 @@
 
 import pandas
 import datetime
+import os
+
+
+def pathfinder():
+    path = '/python_scripts/welcome.xlsx'
+    check_file_location = os.path.isfile(path)
+    return check_file_location
 
 
 def read_file(track_name):
@@ -39,12 +46,9 @@ def get_last_column(data):
     return last_column_name
 
 
-
-
 def finished_track(all_students_df, last_column):
     all_lessons_completed = all_students_df[all_students_df[last_column] < 12]
     return all_lessons_completed
-
 
 
 def remove_completed(data, last_column):
@@ -73,11 +77,25 @@ def generate_excel(df_to_export, df_name, sheet_name):
     return
 
 
-track_list = ["Basic Python", "Python for Programmers", "React", "Web"]
-for item in track_list:
-    excel_content = read_file(item)
-    all_courses = generate_data(excel_content)
-    last = get_last_column(all_courses)
-    active_students = remove_completed(all_courses, last)
-    missing = missing_students(active_students, last)
-    generate_excel(missing, "missing students", item)
+def file_analysis():
+    track_list = ["Basic Python", "Python for Programmers", "React", "Web"]
+    for item in track_list:
+        excel_content = read_file(item)
+        all_courses = generate_data(excel_content)
+        last = get_last_column(all_courses)
+        active_students = remove_completed(all_courses, last)
+        missing = missing_students(active_students, last)
+        generate_excel(missing, "missing students", item)
+
+
+def getting_started():
+    file_located = pathfinder()
+    if file_located:
+        file_analysis()
+    else:
+        message = """Please go to C folder and create a sub-folder called "python_scrips".
+        Put welcome.xlsx in this folder"""
+        print(message)
+
+
+getting_started()
