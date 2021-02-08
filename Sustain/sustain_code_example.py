@@ -13,6 +13,8 @@ def read_file(track_name):
         file_content = pandas.read_excel("welcome.xlsx", sheet_name=track_name)
     except ImportError:
         print("Python tried to open the file, but encountered a problem. Contact code maintainers")
+    except FileNotFoundError:
+        print("The file is not present. Contact code maintainers")
     else:
         return file_content
 
@@ -32,19 +34,30 @@ def generate_data(raw_excel_data):
     return recent
 
 
-def remove_completed(data):
+def get_last_column(data):
+    last_column_name = data.columns.values[-1]
+    return last_column_name
+
+
+
+
+def finished_track(all_students_df, last_column):
+    all_lessons_completed = all_students_df[all_students_df[last_column] < 12]
+    return all_lessons_completed
+
+
+
+def remove_completed(data, last_column):
     """this function removes students who completed the 12 lesson from the dataframe.
     :return: a dataframe which contains only students who are in lesson 1 - 11"""
-    last_column_name = data.columns.values[-1]
-    still_learning = data[data[last_column_name] < 12]
+    still_learning = data[data[last_column] < 12]
     return still_learning
 
 
-def missing_students(students_df):
+def missing_students(students_df, last_column):
     """this function filters the students who did not show up to the last lesson 
     return: a dataframe which contains only students who did not show up to the last lesson"""
-    last_column_name = students_df.columns.values[-1]
-    missed_last = students_df[students_df[last_column_name] == 0]
+    missed_last = students_df[students_df[last_column] == 0]
     return missed_last
 
 
@@ -64,6 +77,7 @@ track_list = ["Basic Python", "Python for Programmers", "React", "Web"]
 for item in track_list:
     excel_content = read_file(item)
     all_courses = generate_data(excel_content)
-    active_students = remove_completed(all_courses)
-    missing = missing_students(active_students)
+    last = get_last_column(all_courses)
+    active_students = remove_completed(all_courses, last)
+    missing = missing_students(active_students, last)
     generate_excel(missing, "missing students", item)
